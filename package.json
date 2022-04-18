@@ -1,0 +1,31 @@
+{
+  "name": "serverless-task-management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development sls offline start --stage offline",
+    "deploy:prod": "cross-env NODE_ENV=production sls deploy --stage prod",
+    "test": "jest",
+    "migrate": "node-pg-migrate",
+    "migrate:up": "DATABASE_URL=postgres://postgres:postgres@localhost:5432/task_management node-pg-migrate up"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "serverless-postgres": "^1.10.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.24",
+    "cross-env": "^7.0.3",
+    "jest": "^27.5.1",
+    "node-pg-migrate": "^6.2.1",
+    "serverless": "^3.14.0",
+    "serverless-bundle": "^5.3.0",
+    "serverless-dotenv-plugin": "^3.12.2",
+    "serverless-offline": "^8.7.0",
+    "ts-jest": "^27.1.4",
+    "tsoa": "^3.14.1",
+    "typescript": "^4.6.3"
+  }
+}
