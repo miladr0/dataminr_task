@@ -1,0 +1,91 @@
+service: serverless-task-management
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 30
+
+custom:
+  stage: ${opt::stage, 'offline'}
+  region: ${opt::region, 'eu-west-1'}
+  bundle:
+    linting: false
+    ignorePackages:
+      - pg-native
+  serverless-offline:
+    httpPort: 8080
+    noPrependStageInUrl: true
+
+
+  
+functions:
+  create-task:
+    handler: src/taskHandler.createTask
+    events:
+      - http:
+          path: /tasks
+          method: post
+  update-task:
+    handler: src/taskHandler.updateTask
+    events:
+      - http:
+          path: /tasks
+          method: put
+  list-tasks:
+    handler: src/taskHandler.listTasks
+    events:
+      - http:
+          path: /tasks
+          method: get
+  delete-task:
+    handler: src/taskHandler.deleteTask
+    events:
+      - http:
+          path: /tasks
+          method: delete
+  add-task-to-list:
+    handler: src/taskHandler.addTaskToList
+    events:
+      - http:
+          path: /tasks/add-task-to-list
+          method: post        
+  remove-task-from-list:
+    handler: src/taskHandler.removeTaskFromList
+    events:
+      - http:
+          path: /tasks/remove-task-from-list
+          method: delete         
+  # tasks lists api      
+  create-list:
+      handler: src/taskListHandler.createList
+      events:
+        - http:
+            path: /lists
+            method: post
+  update-list:
+    handler: src/taskListHandler.updateList
+    events:
+      - http:
+          path: /lists
+          method: put
+  list-lists:
+    handler: src/taskListHandler.listLists
+    events:
+      - http:
+          path: /lists
+          method: get
+  delete-list:
+    handler: src/taskListHandler.deleteList
+    events:
+      - http:
+          path: /lists
+          method: delete                   
+
+
+package:
+  individually: true      
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-bundle
+  - serverless-offline
